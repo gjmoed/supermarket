@@ -8,10 +8,16 @@ describe CookbookUpload::Parameters do
   end
 
   {
-    "category_name" => "category"
+    'category_name' => 'category',
+    'source_url' => 'source_url',
+    'issues_url' => 'issues_url',
+    'up_for_adoption' => 'up_for_adoption',
+    'deprecated' => 'deprecated',
+    'replacement_name' => 'replacement'
   }.each do |method_name, json_key|
+    method_sym = method_name.to_sym
+
     describe "\##{method_name}" do
-      method_sym = method_name.to_sym
       it 'is extracted from the cookbook JSON' do
         json = "{\"#{json_key}\":\"Cool\"}"
         params = params(cookbook: json, tarball: double)
