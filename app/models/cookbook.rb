@@ -297,19 +297,34 @@ class Cookbook < ActiveRecord::Base
         )
       end
 
-      replacement_name = params.replacement_name
-      if params.deprecated && replacement_name.present?
-        replacement_cookbook = Cookbook.with_name(
-          replacement_name
-        ).first!
-        deprecate(replacement_cookbook)
-      end
+      deprecate_old_cookbook(params)
     end
 
     cookbook_version
   end
   # rubocop:enable Metrics/CyclomaticComplexity
 
+  #
+  # Deprecates a cookbook if a replacement_name is set in the params.
+  # To be called by publish_version! method, method separated for unit
+  # testing.
+  #
+  # TODO: should this throw if the cookbook to be replaced doesn't exist?
+  # TODO: what should happen if deprecation fails/throws?
+  # TODO: how do you know that the "first!" method returns the right cookbook?
+  #
+  # @param params [CookbookUpload::Parameters] the upload parameters
+  #
+  def deprecate_old_cookbook(params)
+    replacement_name = params.replacement_name
+    # TODO: suggest using "params.should_deprecate" versus
+    # "params.deprecated", since this is request to deprecate something.
+    if params.deprecated && replacement_name.present?
+      c = Cookbook.with_name(replacement_name).first!
+      deprecate(c)
+    end
+  end
+  private :deprecate_on_publish
 
   #
   # Returns true if the user passed follows the cookbook.
