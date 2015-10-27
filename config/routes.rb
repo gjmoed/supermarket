@@ -19,6 +19,7 @@ Supermarket::Application.routes.draw do
       post 'cookbooks' => 'cookbook_uploads#create'
       delete 'cookbooks/:cookbook' => 'cookbook_uploads#destroy'
       delete 'cookbooks/:cookbook/versions/:version' => 'cookbook_uploads#destroy_version', constraints: { version: VERSION_PATTERN }
+      post 'cookbooks/:cookbook/replacement/:replacement/deprecate' => 'cookbook_uploads#deprecate'
       get 'users/:user' => 'users#show', as: :user
       post '/cookbook-verisons/evaluation' => 'cookbook_versions#evaluation', as: :cookbook_versions_evaluation, constraints: proc { ROLLOUT.active?(:fieri) }
 

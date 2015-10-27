@@ -136,6 +136,32 @@ class Api::V1::CookbookUploadsController < Api::V1Controller
     end
   end
 
+  #
+  # POST /api/v1/cookbooks/:cookbook/replacement/:replacement/deprecate
+  #
+  # Deprecates the cookbook, sets the replacement cookbook.
+  #
+  # @example
+  #   POST /api/v1/cookbooks/supermarket/replacement/supermarket-omnibus-cookbook/deprecate
+  #
+  def deprecate
+    require_deprecate_params
+
+    @cookbook = Cookbook.with_name(params[:cookbook]).first!
+
+    begin
+      authorize! @cookbook
+    rescue
+      error({}, 403)
+    else
+      replacement_cookbook = Cookbook.with_name(
+        params[:replacement]
+      ).first!
+      @cookbook.deprecate(replacement_cookbook)
+      UniverseCache.flush
+    end
+  end
+
   private
 
   #
@@ -154,6 +180,13 @@ class Api::V1::CookbookUploadsController < Api::V1Controller
   end
 
   alias_method :require_upload_params, :upload_params
+
+  #
+  # The parameter required to deprecate a cookbook
+  #
+  def require_deprecate_params
+    params.require(:replacement)
+  end
 
   #
   # Finds a user specified in the request header or renders an error if
