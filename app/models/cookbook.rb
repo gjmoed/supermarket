@@ -235,6 +235,7 @@ class Cookbook < ActiveRecord::Base
   #
   # @param params [CookbookUpload::Parameters] the upload parameters
   #
+  # rubocop:disable Metrics/CyclomaticComplexity
   def publish_version!(params)
     metadata = params.metadata
 
@@ -307,6 +308,8 @@ class Cookbook < ActiveRecord::Base
 
     cookbook_version
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
+
 
   #
   # Returns true if the user passed follows the cookbook.
