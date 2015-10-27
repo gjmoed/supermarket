@@ -36,18 +36,28 @@ class CookbookUpload
     end
 
     #
+    # Extract a cookbook json key value.
+    #
+    # @return [String]
+    #
+    def extract_json_key(key)
+      parse_cookbook_json do |parsing_errors, json|
+        if parsing_errors.any?
+          ''
+        else
+          json.fetch(key, '').to_s
+        end
+      end
+    end
+    private :extract_json_key
+
+    #
     # The category name given in the +:cookbook+ option. May be an empty string.
     #
     # @return [String]
     #
     def category_name
-      parse_cookbook_json do |parsing_errors, json|
-        if parsing_errors.any?
-          ''
-        else
-          json.fetch('category', '').to_s
-        end
-      end
+      extract_json_key('category')
     end
 
     #
@@ -56,13 +66,7 @@ class CookbookUpload
     # @return [String]
     #
     def source_url
-      parse_cookbook_json do |parsing_errors, json|
-        if parsing_errors.any?
-          ''
-        else
-          json.fetch('source_url', '').to_s
-        end
-      end
+      extract_json_key('source_url')
     end
 
     #
@@ -71,13 +75,7 @@ class CookbookUpload
     # @return [String]
     #
     def issues_url
-      parse_cookbook_json do |parsing_errors, json|
-        if parsing_errors.any?
-          ''
-        else
-          json.fetch('issues_url', '').to_s
-        end
-      end
+      extract_json_key('issues_url')
     end
 
     #
@@ -86,13 +84,7 @@ class CookbookUpload
     # @return [String]
     #
     def up_for_adoption
-      parse_cookbook_json do |parsing_errors, json|
-        if parsing_errors.any?
-          ''
-        else
-          json.fetch('up_for_adoption', '').to_s
-        end
-      end
+      extract_json_key('up_for_adoption')
     end
 
     #
@@ -101,13 +93,7 @@ class CookbookUpload
     # @return [String]
     #
     def deprecated
-      parse_cookbook_json do |parsing_errors, json|
-        if parsing_errors.any?
-          ''
-        else
-          json.fetch('deprecated', '').to_s
-        end
-      end
+      extract_json_key('deprecated')
     end
 
     #
@@ -116,13 +102,7 @@ class CookbookUpload
     # @return [String]
     #
     def replacement_name
-      parse_cookbook_json do |parsing_errors, json|
-        if parsing_errors.any?
-          ''
-        else
-          json.fetch('replacement', '').to_s
-        end
-      end
+      extract_json_key('replacement')
     end
 
     #
