@@ -7,22 +7,27 @@ describe CookbookUpload::Parameters do
     CookbookUpload::Parameters.new(hash)
   end
 
-  describe '#category_name' do
-    it 'is extracted from the cookbook JSON' do
-      params = params(cookbook: '{"category":"Cool"}', tarball: double)
+  {
+    "category_name" => "category"
+  }.each do |method_name, json_key|
+    describe "\##{method_name}" do
+      method_sym = method_name.to_sym
+      it 'is extracted from the cookbook JSON' do
+        json = "{\"#{json_key}\":\"Cool\"}"
+        params = params(cookbook: json, tarball: double)
 
-      expect(params.category_name).to eql('Cool')
-    end
+        expect(params.send(method_sym)).to eql('Cool')
+      end
 
-    it 'is blank if the cookbook JSON is invalid' do
-      params = params(cookbook: 'ack!', tarball: double)
+      it 'is blank if the cookbook JSON is invalid' do
+        params = params(cookbook: 'ack!', tarball: double)
+        expect(params.send(method_sym)).to eql('')
+      end
 
-      expect(params.category_name).to eql('')
-    end
-
-    it 'is blank if it is missing from the cookbook JSON' do
-      params = params(cookbook: '{"missing":"Cool"}', tarball: double)
-      expect(params.category_name).to eql('')
+      it 'is blank if it is missing from the cookbook JSON' do
+        params = params(cookbook: '{"missing":"Cool"}', tarball: double)
+        expect(params.send(method_sym)).to eql('')
+      end
     end
   end
 
