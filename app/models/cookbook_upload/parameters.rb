@@ -40,7 +40,7 @@ class CookbookUpload
     #
     # @return [String]
     #
-    def extract_json_key(key)
+    def extract_json_value(key)
       parse_cookbook_json do |parsing_errors, json|
         if parsing_errors.any?
           ''
@@ -49,7 +49,7 @@ class CookbookUpload
         end
       end
     end
-    private :extract_json_key
+    private :extract_json_value
 
     #
     # The category name given in the +:cookbook+ option. May be an empty string.
@@ -57,7 +57,7 @@ class CookbookUpload
     # @return [String]
     #
     def category_name
-      extract_json_key('category')
+      extract_json_value('category')
     end
 
     #
@@ -66,7 +66,7 @@ class CookbookUpload
     # @return [String]
     #
     def source_url
-      extract_json_key('source_url')
+      extract_json_value('source_url')
     end
 
     #
@@ -75,7 +75,7 @@ class CookbookUpload
     # @return [String]
     #
     def issues_url
-      extract_json_key('issues_url')
+      extract_json_value('issues_url')
     end
 
     #
@@ -84,7 +84,7 @@ class CookbookUpload
     # @return [String]
     #
     def up_for_adoption
-      extract_json_key('up_for_adoption')
+      extract_json_value('up_for_adoption')
     end
 
     #
@@ -93,7 +93,7 @@ class CookbookUpload
     # @return [String]
     #
     def deprecated
-      extract_json_key('deprecated')
+      extract_json_value('deprecated')
     end
 
     #
@@ -102,7 +102,7 @@ class CookbookUpload
     # @return [String]
     #
     def replacement_name
-      extract_json_key('replacement')
+      extract_json_value('replacement')
     end
 
     #
