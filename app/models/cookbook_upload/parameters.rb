@@ -51,6 +51,81 @@ class CookbookUpload
     end
 
     #
+    # The source_url given in the +:cookbook+ option. May be an empty string.
+    #
+    # @return [String]
+    #
+    def source_url
+      parse_cookbook_json do |parsing_errors, json|
+        if parsing_errors.any?
+          ''
+        else
+          json.fetch('source_url', '').to_s
+        end
+      end
+    end
+
+    #
+    # The issues_url given in the +:cookbook+ option. May be an empty string.
+    #
+    # @return [String]
+    #
+    def issues_url
+      parse_cookbook_json do |parsing_errors, json|
+        if parsing_errors.any?
+          ''
+        else
+          json.fetch('issues_url', '').to_s
+        end
+      end
+    end
+
+    #
+    # The up_for_adoption value given in the +:cookbook+ option. May be an empty string.
+    #
+    # @return [String]
+    #
+    def up_for_adoption
+      parse_cookbook_json do |parsing_errors, json|
+        if parsing_errors.any?
+          ''
+        else
+          json.fetch('up_for_adoption', '').to_s
+        end
+      end
+    end
+
+    #
+    # The deprecated value given in the +:cookbook+ option. May be an empty string.
+    #
+    # @return [String]
+    #
+    def deprecated
+      parse_cookbook_json do |parsing_errors, json|
+        if parsing_errors.any?
+          ''
+        else
+          json.fetch('deprecated', '').to_s
+        end
+      end
+    end
+
+    #
+    # The replacement cookbook name given in the +:cookbook+ option. May be an empty string.
+    #
+    # @return [String]
+    #
+    def replacement_name
+      parse_cookbook_json do |parsing_errors, json|
+        if parsing_errors.any?
+          ''
+        else
+          json.fetch('replacement', '').to_s
+        end
+      end
+    end
+
+    #
     # The metadata specified in the +:tarball+ option's metadata.json entry.
     # May be empty.
     #

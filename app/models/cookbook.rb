@@ -271,11 +271,15 @@ class Cookbook < ActiveRecord::Base
 
       [:source_url, :issues_url].each do |url|
         url_val = metadata.send(url)
+        url_val = params.send(url) unless url_val.present?
 
         if url_val.present?
           write_attribute(url, url_val)
         end
       end
+
+      up_for_adoption = params.up_for_adoption
+      self.up_for_adoption = up_for_adoption if up_for_adoption.present?
 
       self.privacy = metadata.privacy
       save!
@@ -290,6 +294,14 @@ class Cookbook < ActiveRecord::Base
           version_constraint: version_constraint,
           cookbook: existing_cookbooks.find { |c| c.name == name }
         )
+      end
+
+      replacement_name = params.replacement_name
+      if params.deprecated && replacement_name.present?
+        replacement_cookbook = Cookbook.with_name(
+          replacement_name
+        ).first!
+        deprecate(replacement_cookbook)
       end
     end
 
