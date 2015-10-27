@@ -19,6 +19,11 @@ describe CookbookUpload::Parameters do
 
       expect(params.category_name).to eql('')
     end
+
+    it 'is blank if it is missing from the cookbook JSON' do
+      params = params(cookbook: '{"missing":"Cool"}', tarball: double)
+      expect(params.category_name).to eql('')
+    end
   end
 
   describe '#metadata' do
