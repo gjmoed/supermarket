@@ -324,7 +324,7 @@ class Cookbook < ActiveRecord::Base
       deprecate(c)
     end
   end
-  private :deprecate_on_publish
+  private :deprecate_old_cookbook
 
   #
   # Returns true if the user passed follows the cookbook.
